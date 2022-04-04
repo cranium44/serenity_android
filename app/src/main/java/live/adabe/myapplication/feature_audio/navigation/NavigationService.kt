@@ -12,8 +12,9 @@ import ru.terrakok.cicerone.Router
 import ru.terrakok.cicerone.Screen
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
 import ru.terrakok.cicerone.android.support.SupportAppScreen
+import javax.inject.Inject
 
-class NavigationService(cicerone: Cicerone<Router>) : INavigationService {
+class NavigationService @Inject constructor(cicerone: Cicerone<Router>) : INavigationService {
 
     private val router: Router = cicerone.router
     private val navigatorHolder: NavigatorHolder = cicerone.navigatorHolder

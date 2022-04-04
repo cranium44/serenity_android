@@ -15,9 +15,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import live.adabe.myapplication.databinding.ActivityMainBinding
 import live.adabe.myapplication.feature_audio.models.MusicObject
 import live.adabe.myapplication.feature_audio.ui.MusicListAdapter
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
-//@AndroidEntryPoint
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -26,17 +27,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        getPermissions()
         setContentView(binding.root)
         songsAdapter = MusicListAdapter(getAllMusicFiles(), listener)
-        initviews()
     }
 
-    private fun initviews() {
-        binding.apply {
-            musicListRv.adapter = songsAdapter
-            musicListRv.layoutManager = LinearLayoutManager(this@MainActivity)
-        }
-    }
 
     private fun getAllMusicFiles(): List<MusicObject> {
         val tempSongs = mutableListOf<MusicObject>()
@@ -72,7 +67,9 @@ class MainActivity : AppCompatActivity() {
             it1.close()
         }
 
-        Log.d("MAIN_ACTIVITY", tempSongs.joinToString { it.toString() } + "file")
+        Timber.d(tempSongs.joinToString {
+            it.toString()
+        })
 
         return tempSongs
     }
@@ -92,16 +89,17 @@ class MainActivity : AppCompatActivity() {
 
     private val listener = object : MusicListAdapter.OnMusicItemClickListener {
         override fun onItemClick(musicObject: MusicObject) {
-            Toast.makeText(this@MainActivity, "Artist ${musicObject.artist}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@MainActivity, "Artist ${musicObject.artist}", Toast.LENGTH_SHORT)
+                .show()
 
-            try{
+            try {
                 val player = MediaPlayer()
 
                 player.setDataSource(musicObject.path)
                 player.prepare()
                 player.start()
 
-            }catch (t: Throwable){
+            } catch (t: Throwable) {
                 Toast.makeText(this@MainActivity, "Error Playing Audio", Toast.LENGTH_SHORT).show()
             }
         }
