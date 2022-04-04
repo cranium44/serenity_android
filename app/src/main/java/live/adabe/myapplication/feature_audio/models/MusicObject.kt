@@ -5,4 +5,5 @@ data class MusicObject(
     val name: String,
     val path: String,
     val artist: String,
+    val displayName: String,
 )
