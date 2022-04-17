@@ -1,6 +1,6 @@
 package live.adabe.myapplication.feature_audio.models
 
-data class AlphabetOrderWrapper(
-    val header : Char,
+data class CategoryWrapper(
+    val header : String,
     val content: List<MusicObject>
 )
