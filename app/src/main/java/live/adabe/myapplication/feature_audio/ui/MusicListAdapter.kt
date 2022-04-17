@@ -2,6 +2,7 @@ package live.adabe.myapplication.feature_audio.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
 import live.adabe.myapplication.databinding.MusicListItemBinding
 import live.adabe.myapplication.feature_audio.models.MusicObject
@@ -42,5 +43,6 @@ class MusicListAdapter(
 
     interface OnMusicItemClickListener {
         fun onItemClick(musicObject: MusicObject)
+        fun onMusicPlay(musicObject: MusicObject, button: ImageButton)
     }
 }
