@@ -8,71 +8,40 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import live.adabe.myapplication.databinding.ActivityMainBinding
 import live.adabe.myapplication.feature_audio.models.MusicObject
+import live.adabe.myapplication.feature_audio.navigation.INavigationService
+import live.adabe.myapplication.feature_audio.navigation.NavigationService
 import live.adabe.myapplication.feature_audio.ui.MusicListAdapter
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+
     private lateinit var binding: ActivityMainBinding
-    private lateinit var songsAdapter: MusicListAdapter
+
+    @Inject
+    lateinit var navigationService: INavigationService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         getPermissions()
         setContentView(binding.root)
-        songsAdapter = MusicListAdapter(getAllMusicFiles(), listener)
+
+        navigationService.openHomeScreen()
     }
 
 
-    private fun getAllMusicFiles(): List<MusicObject> {
-        val tempSongs = mutableListOf<MusicObject>()
-        val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-        val projection = arrayOf(
-            MediaStore.Audio.AudioColumns._ID,
-            MediaStore.Audio.AudioColumns.TITLE,
-            MediaStore.Audio.AudioColumns.DATA,
-            MediaStore.Audio.AudioColumns.ARTIST,
-            MediaStore.Audio.AudioColumns.DISPLAY_NAME
-        )
-        val selection = "${MediaStore.Audio.AudioColumns.DURATION} >= ?"
-        val selectionArgs = arrayOf(TimeUnit.MILLISECONDS.convert(30L, TimeUnit.SECONDS).toString())
 
-        val cursor = this.contentResolver.query(
-            uri,
-            projection,
-            selection,
-            selectionArgs,
-            "${MediaStore.Audio.AudioColumns.TITLE} ASC",
-        )
-
-        cursor?.let { it1 ->
-            while (it1.moveToNext()) {
-                val id = it1.getLong(0)
-                val name = it1.getString(1)
-                val path = it1.getString(2)
-                val artist = it1.getString(3)
-                val displayName = it1.getColumnName(4)
-
-                tempSongs.add(MusicObject(id, name, path, artist, displayName))
-            }
-            it1.close()
-        }
-
-        Timber.d(tempSongs.joinToString {
-            it.toString()
-        })
-
-        return tempSongs
-    }
 
     private fun getPermissions() {
         if (ActivityCompat.checkSelfPermission(
@@ -102,6 +71,10 @@ class MainActivity : AppCompatActivity() {
             } catch (t: Throwable) {
                 Toast.makeText(this@MainActivity, "Error Playing Audio", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        override fun onMusicPlay(musicObject: MusicObject, button: ImageButton) {
+            TODO("Not yet implemented")
         }
     }
 }
