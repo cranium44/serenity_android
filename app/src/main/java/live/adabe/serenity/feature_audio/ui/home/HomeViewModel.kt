@@ -1,4 +1,4 @@
-package live.adabe.myapplication.feature_audio.ui.home
+package live.adabe.serenity.feature_audio.ui.home
 
 import android.app.Application
 import android.provider.MediaStore
@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import live.adabe.myapplication.feature_audio.models.CategoryWrapper
-import live.adabe.myapplication.feature_audio.models.MusicObject
+import live.adabe.serenity.feature_audio.models.CategoryWrapper
+import live.adabe.serenity.feature_audio.models.MusicObject
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -15,18 +15,15 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val application: Application) : ViewModel() {
 
-    private var _musicList = MutableLiveData<List<MusicObject>>()
-    private val alphabets = listOf("a","b", "c","d", "e")
+    private var _musicList = getAllMusicFiles()
+    private val alphabets = "abcdefghijklmnopqrstuvwxyz"
 
     //list by name
-    private var _musicListByName = MutableLiveData<List<CategoryWrapper>>()
+    private var _musicListByName = MutableLiveData<List<CategoryWrapper>>(mutableListOf())
     val musicListByName: LiveData<List<CategoryWrapper>> = _musicListByName
 
-    init {
-        _musicList.postValue(getAllMusicFiles())
-    }
+    private fun getAllMusicFiles(): MutableList<MusicObject> {
 
-    private fun getAllMusicFiles(): List<MusicObject> {
         val tempSongs = mutableListOf<MusicObject>()
         val uriExt = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         val uriInt = MediaStore.Audio.Media.INTERNAL_CONTENT_URI
@@ -58,6 +55,7 @@ class HomeViewModel @Inject constructor(private val application: Application) : 
         )
 
         cursorExt?.let { it1 ->
+
             while (it1.moveToNext()) {
                 val id = it1.getLong(0)
                 val name = it1.getString(1)
@@ -110,7 +108,20 @@ class HomeViewModel @Inject constructor(private val application: Application) : 
         return tempSongs
     }
 
-    fun getMusicByName(){
-
+    fun getMusicByName() {
+        var music = mutableListOf<CategoryWrapper>()
+        for (letter in alphabets) {
+            music.add(
+                CategoryWrapper(
+                    header = letter.uppercase(),
+                    content = _musicList.let { list ->
+                        Timber.d("music list")
+                        return@let list.filter { it.name[0].uppercase() == letter.uppercase() }
+                    }
+                )
+            )
+        }
+        music = music.filter { it.content.isNotEmpty() } as MutableList<CategoryWrapper>
+        _musicListByName.postValue(music)
     }
 }

@@ -1,11 +1,11 @@
-package live.adabe.myapplication.feature_audio.di
+package live.adabe.serenity.feature_audio.di
 
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import live.adabe.myapplication.feature_audio.navigation.INavigationService
-import live.adabe.myapplication.feature_audio.navigation.NavigationService
+import live.adabe.serenity.feature_audio.navigation.INavigationService
+import live.adabe.serenity.feature_audio.navigation.NavigationService
 import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.Router
 import javax.inject.Singleton

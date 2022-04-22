@@ -1,4 +1,4 @@
-package live.adabe.myapplication
+package live.adabe.serenity
 
 import org.junit.Test
 

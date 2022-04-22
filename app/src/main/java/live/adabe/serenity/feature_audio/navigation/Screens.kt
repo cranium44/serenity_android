@@ -1,8 +1,8 @@
-package live.adabe.myapplication.feature_audio.navigation
+package live.adabe.serenity.feature_audio.navigation
 
 import androidx.fragment.app.Fragment
-import live.adabe.myapplication.feature_audio.ui.home.HomeFragment
-import live.adabe.myapplication.feature_audio.ui.player.PlayerFragment
+import live.adabe.serenity.feature_audio.ui.home.HomeFragment
+import live.adabe.serenity.feature_audio.ui.player.PlayerFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 class Screens {

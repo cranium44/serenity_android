@@ -1,4 +1,4 @@
-package live.adabe.myapplication
+package live.adabe.serenity
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

@@ -1,11 +1,11 @@
-package live.adabe.myapplication.feature_audio.ui
+package live.adabe.serenity.feature_audio.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
-import live.adabe.myapplication.databinding.MusicListItemBinding
-import live.adabe.myapplication.feature_audio.models.MusicObject
+import live.adabe.serenity.databinding.MusicListItemBinding
+import live.adabe.serenity.feature_audio.models.MusicObject
 
 class MusicListAdapter(
     private var songs: List<MusicObject>,

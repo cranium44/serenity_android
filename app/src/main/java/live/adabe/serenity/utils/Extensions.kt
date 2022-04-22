@@ -1,4 +1,4 @@
-package live.adabe.myapplication.utils
+package live.adabe.serenity.utils
 
 import android.annotation.SuppressLint
 import android.graphics.PorterDuff

@@ -1,4 +1,4 @@
-package live.adabe.myapplication.feature_audio.navigation
+package live.adabe.serenity.feature_audio.navigation
 
 import android.content.Context
 import ru.terrakok.cicerone.Screen

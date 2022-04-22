@@ -1,11 +1,11 @@
-package live.adabe.myapplication.feature_audio.navigation
+package live.adabe.serenity.feature_audio.navigation
 
 import android.content.Context
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import live.adabe.myapplication.MainActivity
-import live.adabe.myapplication.R
+import live.adabe.serenity.MainActivity
+import live.adabe.serenity.R
 import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router

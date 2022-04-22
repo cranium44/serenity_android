@@ -1,10 +1,10 @@
-package live.adabe.myapplication.feature_audio.ui
+package live.adabe.serenity.feature_audio.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import live.adabe.myapplication.databinding.GroupingViewItemBinding
-import live.adabe.myapplication.feature_audio.models.CategoryWrapper
+import live.adabe.serenity.databinding.GroupingViewItemBinding
+import live.adabe.serenity.feature_audio.models.CategoryWrapper
 
 class CategoryAdapter(private val musicByCategory: List<CategoryWrapper>) : RecyclerView.Adapter<CategoryViewHolder>() {
 

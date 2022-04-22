@@ -1,4 +1,4 @@
-package live.adabe.myapplication.feature_audio.models
+package live.adabe.serenity.feature_audio.models
 
 data class MusicObject(
     val id: Long,
