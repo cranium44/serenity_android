@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Administrator/Documents/Projects/serenity_android/app/src/main/res/drawable/bg_gradient.xml" value="0.10472972972972973" />
+        <entry key="..\:/Users/Administrator/Documents/Projects/serenity_android/app/src/main/res/layout/fragment_player.xml" value="0.1" />
         <entry key="..\:/Users/Administrator/Documents/Projects/serenity_android/app/src/main/res/layout/grouping_view_item.xml" value="0.17702702702702702" />
         <entry key="..\:/Users/Administrator/Documents/Projects/serenity_android/app/src/main/res/layout/home_fragment.xml" value="0.33" />
         <entry key="..\:/Users/Administrator/Documents/Projects/serenity_android/app/src/main/res/layout/music_list_item.xml" value="0.25" />
