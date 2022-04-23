@@ -1,5 +1,10 @@
 package live.adabe.serenity.feature_audio.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+
+@Parcelize
 data class MusicObject(
     val id: Long,
     val name: String,
@@ -8,4 +13,4 @@ data class MusicObject(
     val duration: Int,
     val genre: String,
     val isFavourite: Boolean = false
-)
+): Parcelable

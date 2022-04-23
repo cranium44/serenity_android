@@ -1,6 +1,7 @@
 package live.adabe.serenity.feature_audio.navigation
 
 import android.content.Context
+import android.os.Bundle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,8 +19,8 @@ class NavigationService @Inject constructor(cicerone: Cicerone<Router>) : INavig
 
     private val router: Router = cicerone.router
     private val navigatorHolder: NavigatorHolder = cicerone.navigatorHolder
-    override fun openPlayerScreen() {
-        navigateTo(Screens.PlayerScreen())
+    override fun openPlayerScreen(bundle: Bundle?) {
+        navigateTo(Screens.PlayerScreen(bundle))
     }
 
     override fun openHomeScreen() {

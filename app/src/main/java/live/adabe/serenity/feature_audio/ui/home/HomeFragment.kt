@@ -7,15 +7,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import live.adabe.serenity.databinding.HomeFragmentBinding
+import live.adabe.serenity.feature_audio.navigation.INavigationService
+import live.adabe.serenity.feature_audio.navigation.NavigationService
 import live.adabe.serenity.feature_audio.ui.CategoryAdapter
 import timber.log.Timber
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var viewModel: HomeViewModel
     private lateinit var binding: HomeFragmentBinding
     private lateinit var rvAdapter: CategoryAdapter
+
+    @Inject
+    lateinit var navigationService: INavigationService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +43,7 @@ class HomeFragment : Fragment() {
         viewModel.getMusicByName()
         viewModel.musicListByName.observe(viewLifecycleOwner,{ list ->
             Timber.d(list.joinToString { it.toString() })
-            rvAdapter = CategoryAdapter(list)
+            rvAdapter = CategoryAdapter(list, navigationService)
             binding.homeRv.run {
                 adapter = rvAdapter
                 layoutManager = LinearLayoutManager(requireContext())

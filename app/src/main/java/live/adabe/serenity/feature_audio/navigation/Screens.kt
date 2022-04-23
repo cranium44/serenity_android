@@ -1,5 +1,6 @@
 package live.adabe.serenity.feature_audio.navigation
 
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 import live.adabe.serenity.feature_audio.ui.home.HomeFragment
 import live.adabe.serenity.feature_audio.ui.player.PlayerFragment
@@ -13,9 +14,11 @@ class Screens {
         }
     }
 
-    class PlayerScreen : SupportAppScreen() {
+    class PlayerScreen(private var bundle: Bundle?) : SupportAppScreen() {
         override fun getFragment(): Fragment {
-            return PlayerFragment()
+            val fragment = PlayerFragment()
+            fragment.arguments = bundle
+            return fragment
         }
     }
 

@@ -1,18 +1,22 @@
 package live.adabe.serenity.feature_audio.ui
 
-import android.app.Application
-import android.media.MediaPlayer
+import android.os.Bundle
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import live.adabe.serenity.databinding.GroupingViewItemBinding
 import live.adabe.serenity.feature_audio.models.CategoryWrapper
 import live.adabe.serenity.feature_audio.models.MusicObject
-import javax.inject.Inject
+import live.adabe.serenity.feature_audio.navigation.INavigationService
 
-class CategoryViewHolder @Inject constructor(private val binding: GroupingViewItemBinding) :
-    RecyclerView.ViewHolder(binding.root) {
+class CategoryViewHolder constructor(
+    private val binding: GroupingViewItemBinding,
+    private val navigationService: INavigationService
+) : RecyclerView.ViewHolder(binding.root) {
+
+    companion object {
+        const val SONG_KEY = "song"
+    }
 
     fun bind(categoryWrapper: CategoryWrapper) {
         binding.apply {
@@ -27,19 +31,9 @@ class CategoryViewHolder @Inject constructor(private val binding: GroupingViewIt
 
     private val listener = object : MusicListAdapter.OnMusicItemClickListener {
         override fun onItemClick(musicObject: MusicObject) {
-            Toast.makeText(this@CategoryViewHolder.itemView.context, "Artist ${musicObject.artist}", Toast.LENGTH_SHORT)
-                .show()
-
-            try {
-                val player = MediaPlayer()
-
-                player.setDataSource(musicObject.path)
-                player.prepare()
-                player.start()
-
-            } catch (t: Throwable) {
-
-            }
+            navigationService.openPlayerScreen(Bundle().also { bundle ->
+                bundle.putParcelable(SONG_KEY, musicObject)
+            })
         }
 
         override fun onMusicPlay(musicObject: MusicObject, button: ImageButton) {
