@@ -54,25 +54,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val listener = object : MusicListAdapter.OnMusicItemClickListener {
-        override fun onItemClick(musicObject: MusicObject) {
-            Toast.makeText(this@MainActivity, "Artist ${musicObject.artist}", Toast.LENGTH_SHORT)
-                .show()
-
-            try {
-                val player = MediaPlayer()
-
-                player.setDataSource(musicObject.path)
-                player.prepare()
-                player.start()
-
-            } catch (t: Throwable) {
-                Toast.makeText(this@MainActivity, "Error Playing Audio", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        override fun onMusicPlay(musicObject: MusicObject, button: ImageButton) {
-            TODO("Not yet implemented")
-        }
-    }
 }
