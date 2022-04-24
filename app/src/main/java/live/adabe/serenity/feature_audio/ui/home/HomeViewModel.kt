@@ -28,14 +28,14 @@ class HomeViewModel @Inject constructor(private val application: Application) : 
         val uriExt = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         val uriInt = MediaStore.Audio.Media.INTERNAL_CONTENT_URI
         val projection = arrayOf(
-            MediaStore.Audio.AudioColumns._ID,
-            MediaStore.Audio.AudioColumns.TITLE,
-            MediaStore.Audio.AudioColumns.DATA,
-            MediaStore.Audio.AudioColumns.ARTIST,
-            MediaStore.Audio.AudioColumns.DURATION,
-            MediaStore.Audio.AudioColumns.GENRE
+            MediaStore.Audio.Media._ID,
+            MediaStore.Audio.Media.TITLE,
+            MediaStore.Audio.Media.DATA,
+            MediaStore.Audio.Media.ARTIST,
+            MediaStore.Audio.Media.DURATION,
+            MediaStore.Audio.Media.ALBUM
         )
-        val selection = "${MediaStore.Audio.AudioColumns.DURATION} >= ?"
+        val selection = "${MediaStore.Audio.Media.DURATION} >= ?"
         val selectionArgs = arrayOf(TimeUnit.MILLISECONDS.convert(30L, TimeUnit.SECONDS).toString())
 
         val cursorExt = application.contentResolver.query(
@@ -61,8 +61,8 @@ class HomeViewModel @Inject constructor(private val application: Application) : 
                 val name = it1.getString(1)
                 val path = it1.getString(2)
                 val artist = it1.getString(3)
-                val duration = it1.getColumnName(4)
-                val genre = it1.getColumnName(5)
+                val duration = it1.getString(4)
+                val album = it1.getString(5)
 
                 tempSongs.add(
                     MusicObject(
@@ -70,8 +70,8 @@ class HomeViewModel @Inject constructor(private val application: Application) : 
                         name,
                         path,
                         artist,
-                        duration.toIntOrNull() ?: 0,
-                        genre
+                        duration,
+                        album
                     )
                 )
             }
@@ -84,8 +84,8 @@ class HomeViewModel @Inject constructor(private val application: Application) : 
                 val name = it1.getString(1)
                 val path = it1.getString(2)
                 val artist = it1.getString(3)
-                val duration = it1.getColumnName(4)
-                val genre = it1.getColumnName(5)
+                val duration = it1.getString(4)
+                val album = it1.getString(5)
 
                 tempSongs.add(
                     MusicObject(
@@ -93,8 +93,8 @@ class HomeViewModel @Inject constructor(private val application: Application) : 
                         name,
                         path,
                         artist,
-                        duration.toIntOrNull() ?: 0,
-                        genre
+                        duration,
+                        album
                     )
                 )
             }

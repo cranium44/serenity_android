@@ -10,7 +10,7 @@ data class MusicObject(
     val name: String,
     val path: String,
     val artist: String,
-    val duration: Int,
-    val genre: String,
+    val duration: String,
+    val album: String,
     val isFavourite: Boolean = false
 ): Parcelable

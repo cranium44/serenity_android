@@ -26,7 +26,7 @@ class PlayerFragment : Fragment() {
         binding = FragmentPlayerBinding.inflate(inflater,container,false)
 
         arguments?.let { bundle ->
-            musicObject = bundle.getParcelable<MusicObject>(CategoryViewHolder.SONG_KEY)!!
+            musicObject = bundle.getParcelable(CategoryViewHolder.SONG_KEY)!!
         }
 
         Timber.d(musicObject.toString())
