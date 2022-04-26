@@ -1,4 +1,4 @@
-package live.adabe.serenity.feature_audio.ui
+package live.adabe.serenity.feature_audio.ui.adapters
 
 import android.os.Bundle
 import android.widget.ImageButton

@@ -2,17 +2,12 @@ package live.adabe.serenity
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageButton
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import dagger.hilt.android.AndroidEntryPoint
 import live.adabe.serenity.databinding.ActivityMainBinding
-import live.adabe.serenity.feature_audio.models.MusicObject
 import live.adabe.serenity.feature_audio.navigation.INavigationService
-import live.adabe.serenity.feature_audio.ui.MusicListAdapter
 import javax.inject.Inject
 
 @AndroidEntryPoint

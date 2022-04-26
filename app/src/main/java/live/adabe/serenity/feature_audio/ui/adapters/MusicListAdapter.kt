@@ -1,9 +1,11 @@
-package live.adabe.serenity.feature_audio.ui
+package live.adabe.serenity.feature_audio.ui.adapters
 
+import android.media.MediaMetadataRetriever
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import live.adabe.serenity.databinding.MusicListItemBinding
 import live.adabe.serenity.feature_audio.models.MusicObject
 
@@ -24,7 +26,19 @@ class MusicListAdapter(
                 root.setOnClickListener {
                     listener.onItemClick(song)
                 }
+                val image = getAlbumArt(song.path)
+                image?.let { bytes ->
+                    Glide.with(root.context).load(bytes).into(albumArt)
+                }
             }
+        }
+
+        private fun getAlbumArt(uri: String): ByteArray? {
+            val retriever = MediaMetadataRetriever()
+            retriever.setDataSource(uri)
+            val art = retriever.embeddedPicture
+            retriever.close()
+            return art
         }
     }
 

@@ -1,4 +1,4 @@
-package live.adabe.serenity.feature_audio.ui
+package live.adabe.serenity.feature_audio.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

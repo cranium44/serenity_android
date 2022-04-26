@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import dagger.hilt.android.AndroidEntryPoint
 import live.adabe.serenity.databinding.FragmentPlayerBinding
 import live.adabe.serenity.feature_audio.models.MusicObject
-import live.adabe.serenity.feature_audio.ui.CategoryViewHolder
+import live.adabe.serenity.feature_audio.ui.adapters.CategoryViewHolder
 import timber.log.Timber
 
 

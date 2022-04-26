@@ -10,8 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import live.adabe.serenity.databinding.HomeFragmentBinding
 import live.adabe.serenity.feature_audio.navigation.INavigationService
-import live.adabe.serenity.feature_audio.navigation.NavigationService
-import live.adabe.serenity.feature_audio.ui.CategoryAdapter
+import live.adabe.serenity.feature_audio.ui.adapters.CategoryAdapter
 import timber.log.Timber
 import javax.inject.Inject
 
