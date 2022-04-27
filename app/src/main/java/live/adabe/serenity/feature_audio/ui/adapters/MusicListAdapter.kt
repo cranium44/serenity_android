@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import live.adabe.serenity.databinding.MusicListItemBinding
 import live.adabe.serenity.feature_audio.models.MusicObject
+import live.adabe.serenity.utils.getAlbumArt
 
 class MusicListAdapter(
     private var songs: List<MusicObject>,
@@ -31,14 +32,6 @@ class MusicListAdapter(
                     Glide.with(root.context).load(bytes).into(albumArt)
                 }
             }
-        }
-
-        private fun getAlbumArt(uri: String): ByteArray? {
-            val retriever = MediaMetadataRetriever()
-            retriever.setDataSource(uri)
-            val art = retriever.embeddedPicture
-            retriever.close()
-            return art
         }
     }
 

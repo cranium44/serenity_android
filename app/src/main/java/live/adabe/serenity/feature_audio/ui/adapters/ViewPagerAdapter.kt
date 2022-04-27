@@ -6,8 +6,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import java.util.*
 
 class ViewPagerAdapter(
-    private val fragmentManager: FragmentManager,
-
+    fragmentManager: FragmentManager,
 ) : FragmentPagerAdapter(fragmentManager) {
 
     private var fragmentsList: ArrayList<Fragment> = arrayListOf()
@@ -24,5 +23,9 @@ class ViewPagerAdapter(
 
     override fun getItem(position: Int): Fragment {
         return fragmentsList[position]
+    }
+
+    override fun getPageTitle(position: Int): CharSequence {
+        return titles[position]
     }
 }

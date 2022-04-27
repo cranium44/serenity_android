@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import live.adabe.serenity.databinding.FragmentPlayerBinding
 import live.adabe.serenity.feature_audio.models.MusicObject
 import live.adabe.serenity.feature_audio.ui.adapters.CategoryViewHolder
+import live.adabe.serenity.utils.getAlbumArt
 import timber.log.Timber
 
 
@@ -28,10 +30,19 @@ class PlayerFragment : Fragment() {
         arguments?.let { bundle ->
             musicObject = bundle.getParcelable(CategoryViewHolder.SONG_KEY)!!
         }
-
+        bindViews()
         Timber.d(musicObject.toString())
         return binding.root
     }
 
+    private fun bindViews(){
+        binding.apply {
+            musicName.text = musicObject.name
+            musicArtist.text = musicObject.artist
+            val albumArt = getAlbumArt(musicObject.path)
+
+            Glide.with(requireActivity()).load(albumArt).into(coverArt)
+        }
+    }
 
 }

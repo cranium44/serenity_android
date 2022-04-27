@@ -2,6 +2,7 @@ package live.adabe.serenity.utils
 
 import android.annotation.SuppressLint
 import android.graphics.PorterDuff
+import android.media.MediaMetadataRetriever
 import android.view.MotionEvent
 import android.view.View
 
@@ -28,4 +29,12 @@ fun View.hide(){
 
 fun View.show(){
     visibility = View.VISIBLE
+}
+
+fun getAlbumArt(uri: String): ByteArray? {
+    val retriever = MediaMetadataRetriever()
+    retriever.setDataSource(uri)
+    val art = retriever.embeddedPicture
+    retriever.close()
+    return art
 }

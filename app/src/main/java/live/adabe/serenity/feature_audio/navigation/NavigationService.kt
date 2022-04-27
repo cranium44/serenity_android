@@ -24,7 +24,7 @@ class NavigationService @Inject constructor(cicerone: Cicerone<Router>) : INavig
     }
 
     override fun openHomeScreen() {
-        replaceScreen(Screens.HomeScreen())
+        navigateTo(Screens.HomeScreen())
     }
 
 
