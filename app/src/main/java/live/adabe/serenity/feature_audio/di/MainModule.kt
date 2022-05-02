@@ -1,5 +1,6 @@
 package live.adabe.serenity.feature_audio.di
 
+import android.media.MediaPlayer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,4 +27,8 @@ class MainModule {
     fun provideNavigationService(cicerone: Cicerone<Router>): INavigationService{
         return NavigationService(cicerone)
     }
+
+    @Provides
+    @Singleton
+    fun provideMediaPlayer() = MediaPlayer()
 }

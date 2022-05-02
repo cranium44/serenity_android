@@ -1,5 +1,6 @@
 package live.adabe.serenity
 
+import live.adabe.serenity.utils.milliSecondsToTimer
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -13,5 +14,12 @@ class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
+    }
+
+    @Test
+    fun `test format string`(){
+        val msec = 2120000L
+        val result = milliSecondsToTimer(msec)
+        assertEquals(result, "")
     }
 }

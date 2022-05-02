@@ -139,9 +139,9 @@
         android:layout_height="35dp"
         android:contentDescription="@string/image"
         android:src="@drawable/ic_shuffle_off"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton"
+        app:layout_constraintBottom_toBottomOf="@+id/play_btn"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="@+id/imageButton" />
+        app:layout_constraintTop_toTopOf="@+id/play_btn" />
 
     <ImageView
         android:id="@+id/skip_back_btn"
@@ -150,12 +150,12 @@
         android:layout_marginEnd="24dp"
         android:contentDescription="@string/image"
         android:src="@drawable/ic_skip_back"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
-        app:layout_constraintTop_toTopOf="@+id/imageButton" />
+        app:layout_constraintBottom_toBottomOf="@+id/play_btn"
+        app:layout_constraintEnd_toStartOf="@+id/play_btn"
+        app:layout_constraintTop_toTopOf="@+id/play_btn" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/imageButton"
+        android:id="@+id/play_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/image"
@@ -172,9 +172,9 @@
         android:layout_marginStart="24dp"
         android:contentDescription="@string/image"
         android:src="@drawable/ic_skip_fwd"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton"
-        app:layout_constraintStart_toEndOf="@+id/imageButton"
-        app:layout_constraintTop_toTopOf="@+id/imageButton" />
+        app:layout_constraintBottom_toBottomOf="@+id/play_btn"
+        app:layout_constraintStart_toEndOf="@+id/play_btn"
+        app:layout_constraintTop_toTopOf="@+id/play_btn" />
 
     <ImageView
         android:id="@+id/repeat_btn"
@@ -182,9 +182,9 @@
         android:layout_height="35dp"
         android:contentDescription="@string/image"
         android:src="@drawable/ic_repeat_off"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton"
+        app:layout_constraintBottom_toBottomOf="@+id/play_btn"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintTop_toTopOf="@+id/imageButton" />
+        app:layout_constraintTop_toTopOf="@+id/play_btn" />
 
 
     <androidx.constraintlayout.widget.Guideline

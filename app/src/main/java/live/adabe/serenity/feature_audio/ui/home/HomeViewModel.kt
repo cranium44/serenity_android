@@ -101,10 +101,6 @@ class HomeViewModel @Inject constructor(private val application: Application) : 
             it1.close()
         }
 
-        Timber.d(tempSongs.joinToString {
-            it.toString()
-        })
-
         return tempSongs
     }
 

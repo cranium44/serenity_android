@@ -2,8 +2,8 @@ package live.adabe.serenity
 
 import android.Manifest
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import dagger.hilt.android.AndroidEntryPoint
 import live.adabe.serenity.databinding.ActivityMainBinding
@@ -32,8 +32,6 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         navigationService.detachFromActivity()
     }
-
-
 
 
     private fun getPermissions() {
