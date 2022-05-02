@@ -1,5 +1,6 @@
 package live.adabe.serenity.feature_audio.ui.adapters
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,6 +9,8 @@ import live.adabe.serenity.databinding.GroupingViewItemBinding
 import live.adabe.serenity.feature_audio.models.CategoryWrapper
 import live.adabe.serenity.feature_audio.models.MusicObject
 import live.adabe.serenity.feature_audio.navigation.INavigationService
+import live.adabe.serenity.feature_audio.ui.player.PlayerActivity
+import live.adabe.serenity.utils.StringConstants
 
 class CategoryViewHolder constructor(
     private val binding: GroupingViewItemBinding,
@@ -30,10 +33,17 @@ class CategoryViewHolder constructor(
     }
 
     private val listener = object : MusicListAdapter.OnMusicItemClickListener {
-        override fun onItemClick(musicObject: MusicObject) {
+        override fun onItemClick(musicObject: MusicObject, position: Int) {
             navigationService.openPlayerScreen(Bundle().also { bundle ->
                 bundle.putParcelable(SONG_KEY, musicObject)
             })
+
+            with(Intent(itemView.context, PlayerActivity::class.java)){
+                putExtra(StringConstants.MUSIC_OBJECT_KEY, musicObject)
+                putExtra(StringConstants.MUSIC_POSITION_KEY, position)
+
+                itemView.context.startActivity(this)
+            }
         }
 
         override fun onMusicPlay(musicObject: MusicObject, button: ImageButton) {

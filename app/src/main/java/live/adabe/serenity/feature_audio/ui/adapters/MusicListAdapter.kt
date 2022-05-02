@@ -20,12 +20,12 @@ class MusicListAdapter(
         private var binding: MusicListItemBinding,
         private var listener: OnMusicItemClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(song: MusicObject) {
+        fun bind(song: MusicObject, position: Int) {
             binding.apply {
                 songName.text = song.name
                 songArtist.text = song.artist
                 root.setOnClickListener {
-                    listener.onItemClick(song)
+                    listener.onItemClick(song, position)
                 }
                 val image = getAlbumArt(song.path)
                 image?.let { bytes ->
@@ -45,11 +45,11 @@ class MusicListAdapter(
     override fun getItemCount(): Int = songs.size
 
     override fun onBindViewHolder(holder: MusicListViewHolder, position: Int) {
-        holder.bind(songs[position])
+        holder.bind(songs[position], position)
     }
 
     interface OnMusicItemClickListener {
-        fun onItemClick(musicObject: MusicObject)
+        fun onItemClick(musicObject: MusicObject, position: Int)
         fun onMusicPlay(musicObject: MusicObject, button: ImageButton)
     }
 }
