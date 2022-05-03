@@ -22,6 +22,10 @@ class HomeViewModel @Inject constructor(private val application: Application) : 
     private var _musicListByName = MutableLiveData<List<CategoryWrapper>>(mutableListOf())
     val musicListByName: LiveData<List<CategoryWrapper>> = _musicListByName
 
+    //sorted list
+    private var _sortedList = MutableLiveData<List<MusicObject>>()
+    val sortedList : LiveData<List<MusicObject>> = _sortedList
+
     private fun getAllMusicFiles(): MutableList<MusicObject> {
 
         val tempSongs = mutableListOf<MusicObject>()
@@ -119,5 +123,9 @@ class HomeViewModel @Inject constructor(private val application: Application) : 
         }
         music = music.filter { it.content.isNotEmpty() } as MutableList<CategoryWrapper>
         _musicListByName.postValue(music)
+    }
+
+    fun getSortedList(){
+         _sortedList.postValue(_musicList.sortedBy { it.name })
     }
 }
