@@ -128,4 +128,14 @@ class HomeViewModel @Inject constructor(private val application: Application) : 
     fun getSortedList(){
          _sortedList.postValue(_musicList.sortedBy { it.name })
     }
+
+    fun getNextSong(currentSong: MusicObject): MusicObject {
+        var position = _musicList.sortedBy { it.name }.indexOf(currentSong)
+        return _musicList.sortedBy { it.name }[++position]
+    }
+
+    fun getPrevSong(currentSong: MusicObject): MusicObject {
+        var position = _musicList.sortedBy { it.name }.indexOf(currentSong)
+        return _musicList.sortedBy { it.name }[--position]
+    }
 }

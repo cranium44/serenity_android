@@ -1,10 +1,14 @@
 package live.adabe.serenity.feature_audio.ui.player
 
+import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import live.adabe.serenity.R
@@ -39,19 +43,19 @@ class PlayerActivity : AppCompatActivity() {
             musicObject = getParcelableExtra(StringConstants.MUSIC_OBJECT_KEY)!!
 //            position = getIntExtra(StringConstants.MUSIC_POSITION_KEY, -1)
         }
+        viewModel.getSortedList()
         innitViewModel()
         bindViews()
         playSong()
     }
 
     private fun innitViewModel() {
-        viewModel.getSortedList()
-        viewModel.sortedList.observe(this, { sorted ->
-            songs = sorted
-            position = songs.indexOf(musicObject)
 
-        })
-        Timber.d("the list is ${songs.joinToString { it.toString() }}")
+        viewModel.sortedList.value?.let {
+            songs = it
+            position = songs.indexOf(musicObject)
+        }
+        Timber.d("the list is ${songs.joinToString { it.toString() }}\nPosition is $position")
     }
 
     private fun bindViews() {
@@ -69,7 +73,27 @@ class PlayerActivity : AppCompatActivity() {
             skipFwdBtn.setOnClickListener {
                 skipNext()
             }
+
+            skipBackBtn.setOnClickListener {
+                skipPrev()
+            }
+
+            repeatBtn.setOnClickListener {
+                repeatSong()
+            }
+
+            shuffleBtn.setOnClickListener {
+                shuffleSongs()
+            }
         }
+    }
+
+    private fun repeatSong() {
+
+    }
+
+    private fun shuffleSongs() {
+
     }
 
     private fun playSong() {
@@ -97,7 +121,7 @@ class PlayerActivity : AppCompatActivity() {
                     fromUser: Boolean
                 ) {
                     if (fromUser) {
-                        mediaPlayer.seekTo(progress * 1000)
+                        mediaPlayer.seekTo(progress)
                     }
                 }
 
@@ -110,6 +134,7 @@ class PlayerActivity : AppCompatActivity() {
                 }
 
             })
+            updateViewsWithInfo(musicObject)
         }
     }
 
@@ -120,12 +145,49 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateViewsWithInfo(musicObject: MusicObject){
+    private fun updateViewsWithInfo(musicObject: MusicObject) {
         binding.apply {
             musicName.text = musicObject.name
             musicArtist.text = musicObject.artist
             val albumArt = getAlbumArt(musicObject.path)
+            val bmap = albumArt?.let { BitmapFactory.decodeByteArray(albumArt, 0, it.size) }
+            bmap?.let { bitmap ->
+                Palette.from(bitmap).generate { palette ->
+                    palette?.let {
+                        val swatch = it.dominantSwatch
+                        swatch?.let { swatch1 ->
+                            val gradientDrawable =
+                                GradientDrawable(
+                                    GradientDrawable.Orientation.BOTTOM_TOP,
+                                    intArrayOf(swatch1.rgb, 0x00000000)
+                                )
+                            val backgroundGradientDrawable = GradientDrawable(
+                                GradientDrawable.Orientation.BOTTOM_TOP,
+                                intArrayOf(swatch1.rgb, swatch1.rgb)
+                            )
 
+                            coverGradient.setImageDrawable(gradientDrawable)
+                            root.background = backgroundGradientDrawable
+                            musicName.setTextColor(swatch1.titleTextColor)
+                            musicArtist.setTextColor(swatch1.titleTextColor)
+                        }}?.run{
+                        val gradientDrawable =
+                            GradientDrawable(
+                                GradientDrawable.Orientation.BOTTOM_TOP,
+                                intArrayOf(0xff000000.toInt(), 0x00000000)
+                            )
+                        val backgroundGradientDrawable = GradientDrawable(
+                            GradientDrawable.Orientation.BOTTOM_TOP,
+                            intArrayOf(0xff000000.toInt(), 0xff000000.toInt())
+                        )
+
+                        coverGradient.setImageDrawable(gradientDrawable)
+                        root.background = backgroundGradientDrawable
+                        musicName.setTextColor(Color.WHITE)
+                        musicArtist.setTextColor(Color.DKGRAY)
+                    }
+                }
+            }
             Glide.with(this@PlayerActivity).load(albumArt).into(coverArt)
         }
     }
@@ -144,16 +206,34 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
 
-    private fun skipNext(){
-        if (mediaPlayer.isPlaying && position > -1){
+    private fun skipNext() {
+        if (mediaPlayer.isPlaying) {
             mediaPlayer.stop()
-            position ++
-            musicObject = songs[position]
+            mediaPlayer.reset()
+            musicObject = viewModel.getNextSong(musicObject)
             updateViewsWithInfo(musicObject)
             mediaPlayer.run {
                 setDataSource(musicObject.path)
                 prepare()
                 start()
+                binding.duration.text = milliSecondsToTimer(mediaPlayer.duration.toLong())
+                binding.musicProgress.max = mediaPlayer.duration
+            }
+        }
+    }
+
+    private fun skipPrev() {
+        if (mediaPlayer.isPlaying) {
+            mediaPlayer.stop()
+            mediaPlayer.reset()
+            musicObject = viewModel.getPrevSong(musicObject)
+            updateViewsWithInfo(musicObject)
+            mediaPlayer.run {
+                setDataSource(musicObject.path)
+                prepare()
+                start()
+                binding.duration.text = milliSecondsToTimer(mediaPlayer.duration.toLong())
+                binding.musicProgress.max = mediaPlayer.duration
             }
         }
     }
