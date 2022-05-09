@@ -30,6 +30,8 @@ class PlayerActivity : AppCompatActivity() {
     private lateinit var viewModel: HomeViewModel
     private var songs: List<MusicObject> = listOf()
     private var position = -1
+    private var shuffleOn = false
+    private var repeatOn = false
 
     @Inject
     lateinit var mediaPlayer: MediaPlayer
@@ -43,6 +45,7 @@ class PlayerActivity : AppCompatActivity() {
             musicObject = getParcelableExtra(StringConstants.MUSIC_OBJECT_KEY)!!
 //            position = getIntExtra(StringConstants.MUSIC_POSITION_KEY, -1)
         }
+        mediaPlayer.setOnCompletionListener(onCompletionListener)
         viewModel.getSortedList()
         innitViewModel()
         bindViews()
@@ -66,6 +69,12 @@ class PlayerActivity : AppCompatActivity() {
 
             Glide.with(this@PlayerActivity).load(albumArt).into(coverArt)
 
+            if (repeatOn){
+                repeatBtn.setImageResource(R.drawable.ic_repeat_on)
+            }else{
+                repeatBtn.setImageResource(R.drawable.ic_repeat_off)
+            }
+
             playBtn.setOnClickListener {
                 playPause()
             }
@@ -85,56 +94,6 @@ class PlayerActivity : AppCompatActivity() {
             shuffleBtn.setOnClickListener {
                 shuffleSongs()
             }
-        }
-    }
-
-    private fun repeatSong() {
-
-    }
-
-    private fun shuffleSongs() {
-
-    }
-
-    private fun playSong() {
-
-        binding.run {
-            mediaPlayer.setDataSource(musicObject.path)
-            mediaPlayer.prepare()
-            mediaPlayer.start()
-            musicProgress.max = mediaPlayer.duration
-            duration.text = milliSecondsToTimer(mediaPlayer.duration.toLong())
-            playBtn.setImageResource(R.drawable.ic_pause)
-            Timer().scheduleAtFixedRate(object : TimerTask() {
-                override fun run() {
-                    runOnUiThread {
-                        val currentPosition = mediaPlayer.currentPosition
-                        binding.musicProgress.progress = currentPosition
-                        binding.currentTime.text = milliSecondsToTimer(currentPosition.toLong())
-                    }
-                }
-            }, 1000, 1000)
-            musicProgress.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(
-                    seekBar: SeekBar?,
-                    progress: Int,
-                    fromUser: Boolean
-                ) {
-                    if (fromUser) {
-                        mediaPlayer.seekTo(progress)
-                    }
-                }
-
-                override fun onStartTrackingTouch(p0: SeekBar?) {
-
-                }
-
-                override fun onStopTrackingTouch(p0: SeekBar?) {
-
-                }
-
-            })
-            updateViewsWithInfo(musicObject)
         }
     }
 
@@ -192,6 +151,69 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
 
+    private fun repeatSong() {
+        if (repeatOn){
+            repeatOn = false
+            binding.repeatBtn.setImageResource(R.drawable.ic_repeat_off)
+        }else{
+            repeatOn = true
+            binding.repeatBtn.setImageResource(R.drawable.ic_repeat_on)
+        }
+    }
+
+    private fun shuffleSongs() {
+        shuffleOn = viewModel.getIsShuffleOn()
+        if (shuffleOn){
+            viewModel.setIsShuffleOn(false)
+            binding.shuffleBtn.setImageResource(R.drawable.ic_shuffle_off)
+        }else{
+            viewModel.setIsShuffleOn(true)
+            binding.shuffleBtn.setImageResource(R.drawable.ic_shuffle_on)
+        }
+    }
+
+    private fun playSong() {
+
+        binding.run {
+            mediaPlayer.setDataSource(musicObject.path)
+            mediaPlayer.prepare()
+            mediaPlayer.start()
+            musicProgress.max = mediaPlayer.duration
+            duration.text = milliSecondsToTimer(mediaPlayer.duration.toLong())
+            playBtn.setImageResource(R.drawable.ic_pause)
+            Timer().scheduleAtFixedRate(object : TimerTask() {
+                override fun run() {
+                    runOnUiThread {
+                        val currentPosition = mediaPlayer.currentPosition
+                        binding.musicProgress.progress = currentPosition
+                        binding.currentTime.text = milliSecondsToTimer(currentPosition.toLong())
+                    }
+                }
+            }, 1000, 1000)
+            musicProgress.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(
+                    seekBar: SeekBar?,
+                    progress: Int,
+                    fromUser: Boolean
+                ) {
+                    if (fromUser) {
+                        mediaPlayer.seekTo(progress)
+                    }
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {
+
+                }
+
+                override fun onStopTrackingTouch(p0: SeekBar?) {
+
+                }
+
+            })
+            updateViewsWithInfo(musicObject)
+        }
+    }
+
     private fun playPause() {
         if (mediaPlayer.isPlaying) {
             binding.playBtn.setImageResource(R.drawable.ic_play)
@@ -210,7 +232,7 @@ class PlayerActivity : AppCompatActivity() {
         if (mediaPlayer.isPlaying) {
             mediaPlayer.stop()
             mediaPlayer.reset()
-            musicObject = viewModel.getNextSong(musicObject)
+            if(!repeatOn) musicObject = viewModel.getNextSong(musicObject)
             updateViewsWithInfo(musicObject)
             mediaPlayer.run {
                 setDataSource(musicObject.path)
@@ -226,7 +248,7 @@ class PlayerActivity : AppCompatActivity() {
         if (mediaPlayer.isPlaying) {
             mediaPlayer.stop()
             mediaPlayer.reset()
-            musicObject = viewModel.getPrevSong(musicObject)
+            if(!repeatOn) musicObject = viewModel.getPrevSong(musicObject)
             updateViewsWithInfo(musicObject)
             mediaPlayer.run {
                 setDataSource(musicObject.path)
@@ -236,6 +258,12 @@ class PlayerActivity : AppCompatActivity() {
                 binding.musicProgress.max = mediaPlayer.duration
             }
         }
+    }
+
+
+    private val onCompletionListener = MediaPlayer.OnCompletionListener {
+        it.prepare()
+        it.start()
     }
 
     override fun onDestroy() {

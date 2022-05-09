@@ -11,6 +11,7 @@ import live.adabe.serenity.feature_audio.models.MusicObject
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val application: Application) : ViewModel() {
@@ -24,7 +25,10 @@ class HomeViewModel @Inject constructor(private val application: Application) : 
 
     //sorted list
     private var _sortedList = MutableLiveData<List<MusicObject>>()
-    val sortedList : LiveData<List<MusicObject>> = _sortedList
+    val sortedList: LiveData<List<MusicObject>> = _sortedList
+
+    //shuffle
+    private var isShuffleOn = false
 
     private fun getAllMusicFiles(): MutableList<MusicObject> {
 
@@ -108,6 +112,12 @@ class HomeViewModel @Inject constructor(private val application: Application) : 
         return tempSongs
     }
 
+    fun setIsShuffleOn(boolean: Boolean){
+        isShuffleOn = boolean
+    }
+
+    fun getIsShuffleOn(): Boolean = isShuffleOn
+
     fun getMusicByName() {
         var music = mutableListOf<CategoryWrapper>()
         for (letter in alphabets) {
@@ -125,17 +135,23 @@ class HomeViewModel @Inject constructor(private val application: Application) : 
         _musicListByName.postValue(music)
     }
 
-    fun getSortedList(){
-         _sortedList.postValue(_musicList.sortedBy { it.name })
+    fun getSortedList() {
+        _sortedList.postValue(_musicList.sortedBy { it.name })
     }
 
     fun getNextSong(currentSong: MusicObject): MusicObject {
         var position = _musicList.sortedBy { it.name }.indexOf(currentSong)
-        return _musicList.sortedBy { it.name }[++position]
+        return if (!isShuffleOn) _musicList.sortedBy { it.name }[++position]
+        else _musicList.sortedBy { it.name }[Random.nextInt(
+            _musicList.size
+        )]
     }
 
     fun getPrevSong(currentSong: MusicObject): MusicObject {
         var position = _musicList.sortedBy { it.name }.indexOf(currentSong)
-        return _musicList.sortedBy { it.name }[--position]
+        return if (!isShuffleOn) _musicList.sortedBy { it.name }[--position]
+        else _musicList.sortedBy { it.name }[Random.nextInt(
+            _musicList.size
+        )]
     }
 }
